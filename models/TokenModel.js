@@ -20,8 +20,6 @@ const Tokens = sequelize.define(
     },
     expiry: {
       type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
     },
   },
   {

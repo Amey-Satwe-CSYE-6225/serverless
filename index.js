@@ -48,11 +48,16 @@ functions.cloudEvent("myCloudEventFunction", async (cloudEvent) => {
     },
   });
   let token = tokenFromDB.token;
-
+  let user = await User.findOne({
+    where: {
+      username: receiver_email,
+    },
+  });
+  let userFName = user.first_name;
   var mailOpts = {
     from: "email@ameysatwe.me",
     to: receiver_email,
-    subject: "Hi User, Please activate your account in a few simple steps.",
+    subject: `Hi ${userFName}, Please activate your account in a few simple steps.`,
     html: `<b>Please activate your account.</b>\n\n\n. To activate please visit <a href="http://${DOMAIN}:3000/verify_user?username=${receiver_email}&token=${token}">http://${DOMAIN}:3000/verify_user?username=${receiver_email}&token=${token}</a>`,
   };
   transporter.sendMail(mailOpts, async function (err, response) {
@@ -64,11 +69,13 @@ functions.cloudEvent("myCloudEventFunction", async (cloudEvent) => {
         username: receiver_email,
         Email_Status: "EMAIL_SENT",
       });
-      await tokenFromDB.set({
-        expiry: new Date(Date.now() + 2 * 60000),
-      });
-      await tokenFromDB.save();
-      console.log("Token expiry updated in DB");
+      // console.log(Date.now() + 2 * 60000);
+      // let date = new Date(Date.now() + 2 * 60000);
+      // await tokenFromDB.set({
+      //   expiry: Date.now() + 2 * 60000,
+      // });
+      // await tokenFromDB.save();
+      // console.log("Token expiry updated in DB");
     }
   });
 });
