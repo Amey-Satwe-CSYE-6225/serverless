@@ -8,7 +8,7 @@ var transporter = nodemailer.createTransport({
   service: "Mailgun",
   auth: {
     user: "postmaster@ameysatwe.me",
-    pass: "118c9157168d0e159dfc09dee2306deb-f68a26c9-401be456",
+    pass: process.env.API_PASS,
   },
 });
 const sequelize = require("./models/sequelize.js");
@@ -329,13 +329,6 @@ functions.cloudEvent("myCloudEventFunction", async (cloudEvent) => {
         username: receiver_email,
         Email_Status: "EMAIL_SENT",
       });
-      // console.log(Date.now() + 2 * 60000);
-      // let date = new Date(Date.now() + 2 * 60000);
-      // await tokenFromDB.set({
-      //   expiry: Date.now() + 2 * 60000,
-      // });
-      // await tokenFromDB.save();
-      // console.log("Token expiry updated in DB");
     }
   });
 });
